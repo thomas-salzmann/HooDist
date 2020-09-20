@@ -5,7 +5,9 @@
   "versionCode": 1,
   "icon": "/Common/logo.png",
   "minPlatformVersion": 1000,
-  "features": [],
+  "features": [
+    {"name": "system.geolocation"}
+  ],
   "permissions": [
     {
       "origin": "*"
@@ -21,6 +23,10 @@
     }
   },
   "display": {
+    "backgroundColor": "#ffffef",
+    "titleBarBackgroundColor": "#000000",
+    "menu": true,
+    "titleBarTextColor": "#ffffff",
     "pages": {
       "Hello": {
         "titleBarText": "TitleBar"

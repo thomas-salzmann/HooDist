@@ -1,3 +1,7 @@
+# Custom added
+dist/
+sign/
+
 # Built application files
 *.apk
 *.aar

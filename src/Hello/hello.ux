@@ -1,0 +1,181 @@
+<template>
+  <div class="d1">
+    <div class="myDiv">
+      <input type="button" value="moveToMyLocation" onclick="moveToMyLocation"/>
+    </div>
+    <map class="map lc2" id='mapid' latitude=51.2166667 longitude=6.7666667 showmylocation='true'
+      includepoints={{tincludepoints}} groundoverlays={{tgroundlay}} circles={{tcircles}} polygons={{tpolygones}} @loaded="loaded" @regionchange="regionchange" @tap="tap"
+      @controltap="controltap" @poitap="poitap"></map>
+  </div>
+</template>
+
+<style>
+  .d1 {
+    flex-direction: column;
+  }
+
+  .map {
+    background-color: #a9a9a9;
+    width: 100%;
+    height: 100%;
+  }
+
+  #mapid {}
+
+  .lc1 {
+    mylocation: rgba(255, 0, 255, 0.5) rgba(255, 255, 0, 1) url(/Common/direction.png);
+  }
+
+  .lc2 {
+    mylocation-fill-color: rgba(255, 0, 255, 0.5);
+    mylocation-stroke-color: rgba(255, 255, 0, 1);
+    mylocation-icon-path: url(/Common/direction.png);
+  }
+
+  .myDiv {
+    flex-direction: row;
+  }
+</style>
+
+<script>
+  module.exports = {
+    data: {
+      tcircles: [{
+        latitude: 39.906901, longitude: 116.397972, borderColor: '#ff0000', borderWidth: '15px', zIndex: 20,
+        fillColor: '#EE7AE9', radius: 3500, strokeWidth: 15
+      }],
+      tincludepoints: [{ latitude: 39.074112, longitude: 116.686649 }],
+      tpolygones: [{
+        points: [{ latitude: 39.906901, longitude: 116.397972, coordType: 'gcj02' },
+        { latitude: 39.506901, longitude: 116.097972, coordType: 'gcj02' },
+        { latitude: 39.006901, longitude: 115.597972, coordType: 'gcj02' }],
+        strokeWidth: '5px', strokeColor: 'red', fillColor: 'yellow', zIndex: 3
+      }],
+      tgroundlay: [{
+        'id': 1, southWest: { latitude: 39.906901, longitude: 116.397972, coordType: 'gcj02' },
+        northEast: { latitude: 39.776909, longitude: 116.596205, coordType: 'gcj02' },
+        iconPath: '/Common/logo.png', visible: true, zIndex: 3, opacity: 1
+      }],
+    },
+    onInit() {
+      this.$page.setTitleBar({
+        text: 'SENSE',
+        textColor: '#ffffff',
+        backgroundColor: '#007DFF',
+        backgroundOpacity: 0.5,
+        menu: true
+      })
+    },
+    loaded() {
+      console.log('map has been loaded')
+    },
+    regionchange(event) {
+      console.log('map_xxx regionchange' + ' northeast latitude ' + event.northeast.latitude + ' northeast longitude  ' + event.northeast.longitude + ' southwest.latitude ' + event.southwest.latitude + ' southwest.longitude ' + event.southwest.longitude)
+    },
+    tap(event) {
+      console.log('map_xxx tap' + ' latitude ' + event.latitude + ' longitude ' + event.longitude)
+    },
+    controltap(event) {
+      console.log('controltap id:' + event.id)
+    },
+    poitap(event) {
+      console.log('poiId = ' + event.poiId)
+      console.log('poiName = ' + event.poiName)
+      console.log('latitude = ' + event.latitude)
+      console.log('longitude = ' + event.longitude)
+    },
+    getCenterLocation() {
+      console.log('getCenterLocation')
+      this.$element('mapid').getCenterLocation({
+        success: function (data) {
+          console.log('getCenterLocation   latitude = ' + data.latitude + '   longitude = ' + data.longitude)
+        },
+        fail: function () {
+          console.log('getCenterLocation fail')
+        },
+        complete: function () {
+          console.log('getCenterLocation complete')
+        }
+      })
+    },
+    moveToMyLocation() {
+      console.log('moveToMyLocation')
+      this.$element('mapid').moveToMyLocation()
+    },
+    includePoints() {
+      console.log('includePoints')
+      this.$element('mapid').includePoints({
+        points: [{ latitude: 38.406665, longitude: 116.995047, coordType: 'gcj02' }], padding: '10 0 0 10',
+        success: function () {
+          console.log('includePoints success')
+        },
+        fail: function () {
+          console.log('includePoints fail')
+        },
+        complete: function () {
+          console.log('includePoints complete')
+        }
+      })
+    },
+    getRegion() {
+      console.log('getRegion')
+      this.$element('mapid').getRegion({
+        success: function (data) {
+          console.log('getRegion   southwest = ' + data.southwest + '   northeast = ' + data.northeast)
+        },
+        fail: function () {
+          console.log('getRegion fail')
+        },
+        complete: function () {
+          console.log('getRegion complete')
+        }
+      })
+    },
+    getScale() {
+      console.log('getScale')
+      this.$element('mapid').getScale({
+        success: function (data) {
+          console.log('getScale   scale = ' + data.scale)
+        },
+        fail: function () {
+          console.log('getScale fail')
+        },
+        complete: function () {
+          console.log('getScale complete')
+        }
+      })
+    },
+    getCoordType() {
+      console.log('getCoordType')
+      this.$element('mapid').getCoordType({
+        success: function (data) {
+          console.log('getCoordType   coordtype = ' + data.coordtype)
+        },
+        fail: function () {
+          console.log('getCoordType fail')
+        },
+        complete: function () {
+          console.log('getCoordType complete')
+        }
+      })
+    },
+    convertCoord() {
+      console.log('convertCoord')
+      this.$element('mapid').convertCoord({
+        from: 'wgs84',
+        to: 'gcj02',
+        latitude: 39.747872,
+        longitude: 116.438955,
+        success: function (data) {
+          console.log('convertCoord   latitude = ' + data.latitude + '   longitude = ' + data.longitude)
+        },
+        fail: function () {
+          console.log('convertCoord fail')
+        },
+        complete: function () {
+          console.log('convertCoord complete')
+        }
+      })
+    }
+  }
+</script>
